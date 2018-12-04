@@ -1,0 +1,104 @@
+{
+  "sample": {
+    "tag": "MulangSample",
+    "ast": {
+      "contents": [
+        {
+          "tag": "Sequence",
+          "contents": [
+            {
+              "contents": [
+                {
+                  "contents": "broadcast",
+                  "tag": "Reference"
+                },
+                [
+                  {
+                    "tag": "Application",
+                    "contents": [
+                      {
+                        "tag": "Reference",
+                        "contents": "broadcast_menu"
+                      },
+                      [
+                        {
+                          "contents": "message1",
+                          "tag": "Reference"
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ],
+              "tag": "Application"
+            },
+            {
+              "tag": "Application",
+              "contents": [
+                {
+                  "tag": "Reference",
+                  "contents": "broadcastandwait"
+                },
+                [
+                  {
+                    "tag": "Application",
+                    "contents": [
+                      {
+                        "contents": "broadcast_menu",
+                        "tag": "Reference"
+                      },
+                      [
+                        {
+                          "contents": "message1",
+                          "tag": "Reference"
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "tag": "Application",
+              "contents": [
+                {
+                  "tag": "Reference",
+                  "contents": "wait"
+                },
+                [
+                  {
+                    "tag": "MuNumber",
+                    "contents": 1
+                  }
+                ]
+              ]
+            },
+            {
+              "tag": "Repeat",
+              "contents": [
+                {
+                  "tag": "MuNumber",
+                  "contents": 10
+                },
+                {
+                  "tag": "MuNil"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tag": "Sequence"
+    }
+  },
+  "spec": {
+    "expectations": [],
+    "smellsSet": {
+      "tag": "NoSmells"
+    },
+    "signatureAnalysisType": {
+      "tag": "StyledSignatures",
+      "style": "HaskellStyle"
+    }
+  }
+}

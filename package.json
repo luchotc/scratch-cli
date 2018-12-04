@@ -1,0 +1,27 @@
+{
+  "name": "scratch-cli",
+  "version": "0.0.1",
+  "description": "CLI for Scratch",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mumuki/scratch-cli.git"
+  },
+  "bin": {
+    "scratch-cli": "bin/scratch-cli"
+  },
+  "author": "Luis Cannavó",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.2",
+    "node-getopt": "^0.2.3"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "should": "^11.1.2"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha ./test/*-spec.js"
+  }
+}

@@ -2,7 +2,7 @@ let _ = require("lodash");
 let targetBlocks;
 
 function createNode(tag, contents) {
-  return contents ? {tag, contents} : {tag};
+  return contents !== undefined ? {tag, contents} : {tag};
 }
 
 function nextBlockFor(block) {
@@ -14,7 +14,8 @@ function getBlock(blockId) {
 }
 
 function parse(targets) {
-  return targets.map(t => buildTargetAst(t.blocks));
+  let targetsContents = Object.values(targets).map(t => buildTargetAst(t.blocks, t.name));
+  return createNode("Sequence", targetsContents);
 }
 
 function buildSequenceAst(topLevelBlock) {
@@ -26,12 +27,13 @@ function buildSequenceAst(topLevelBlock) {
   }
 }
 
-function buildTargetAst(blocks) {
+function buildTargetAst(blocks, name) {
   targetBlocks = blocks;
   let topLevelBlocks = _.pickBy(blocks, b => b.topLevel);
   let topLevelSequence = [];
   _.forOwn(topLevelBlocks, block => { topLevelSequence.push(buildSequenceAst(block)) });
-  return createNode("Sequence", topLevelSequence);
+  return buildEntryPoint(name, createNode("Sequence", topLevelSequence));
+  //return createNode("Sequence", topLevelSequence);
 }
 
 function hasSiblings(block) {
@@ -51,12 +53,12 @@ function getBlockSiblings(block) {
 
 function buildBlockAst(block) {
   let [blockStructure, contents] = blocksStructures.getBlockContents(block);
-  return createNode(blockStructure.mulangTag, contents);
-}
-
-function parseBlockInfo(blockInfo) {
-  let contents = parseRegularBlock(blockInfo);
-  return createNode(mulangTag, contents);
+  let mulangTag = blockStructure.mulangTag;
+  if(mulangTag) {
+    return createNode(blockStructure.mulangTag, contents);
+  } else {
+    return contents[0];
+  }
 }
 
 function parseRegularBlock(blockInfo) {
@@ -70,7 +72,7 @@ function parseMulangTag(mulangTag) {
 }
 
 function parseApplication(blockInfo) {
-  let referenceName = blockInfo.blockStructure.applicationName || blockInfo.normalizedOpcode;
+  let referenceName = blockInfo.blockStructure.methodAlias || blockInfo.normalizedOpcode;
   return [
     createNode("Reference", referenceName),
     parseAttributes(blockInfo)
@@ -189,13 +191,14 @@ function getProcedurePrototype(blockInfo) {
 }
 
 function parseEquationParams(blockInfo) {
-  let equationParams = getEquationParams(blockInfo)
+  let equationParams = getEquationParams(blockInfo);
   return equationParams.map( argument => createNode("VariablePattern", argument) );
 }
 
 function parseEquationBody(blockInfo) {
   let procedureBlock = getBlock(blockInfo.block.parent);
-  return buildBlockAst(getBlock(procedureBlock.next))
+  let bodyContents = buildBlockAst(getBlock(procedureBlock.next));
+  return createNode("UnguardedBody", bodyContents);
 }
 
 function getEquationParams(blockInfo) {
@@ -211,6 +214,10 @@ function parseProcedureName(prototypeBlock) {
 function getProcedureName(blockInfo) {
   let prototypeBlock = getProcedurePrototype(blockInfo);
   return parseProcedureName(prototypeBlock);
+}
+
+function buildEntryPoint(name, contents) {
+  return createNode("EntryPoint", [name, contents]);
 }
 
 let mulangTags = {

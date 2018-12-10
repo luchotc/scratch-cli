@@ -23,7 +23,7 @@ const inputBlocks = {
   touchingobjectmenu: {fields: ["TOUCHINGOBJECTMENU"]},
   distancetomenu: {fields: ["DISTANCETOMENU"]},
   of_object_menu: {fields: ["OBJECT"]},
-  key_options: {fields: ["KEY_OPTION"]}
+  keyoptions: {fields: ["KEY_OPTION"]}
   //define what to do with colour picker
 };
 

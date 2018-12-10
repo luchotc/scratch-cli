@@ -1,5 +1,5 @@
-[
-  {
+{
+  "0": {
     "id": "+m=ECf.)_SE%ESFLKK|!",
     "name": "Stage",
     "isStage": true,
@@ -214,7 +214,7 @@
     "videoTransparency": 50,
     "videoState": "off"
   },
-  {
+  "1": {
     "id": ";e4bSb|Y_*sB4H:_.`JP",
     "name": "Sprite1",
     "isStage": false,
@@ -548,4 +548,4 @@
     "videoTransparency": 50,
     "videoState": "on"
   }
-]
+}

@@ -4,7 +4,6 @@ let globalConfig = require("./config");
 
 let options = getopt.create([
   ["n", "from_stdin", "Take the code from stdin."],
-  ["m", "mulang_ast", "Print the Mulang AST of the program."],
   ["v", "version", "Display the version."],
   ["h", "help", "Display this help."],
   ["l", "language=LANGUAGE", "The language code. Default: es"],
@@ -14,7 +13,6 @@ let options = getopt.create([
 options.setHelp(
   "Examples of usage:\n" +
   "scratch-cli targets.json\n" +
-  "scratch-cli --mulang_ast --from_stdin\n" +
   "\n" + "[[OPTIONS]]"
 );
 
@@ -34,7 +32,7 @@ function callAction() {
 
   (((config.argv.length === 0 && !config.options.from_stdin) || config.argv.length > 1)
     ? actions.help
-    : actions.run
+    : actions.mulang_ast
   )(config, options);
 }
 

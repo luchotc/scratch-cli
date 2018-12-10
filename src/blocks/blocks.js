@@ -6,6 +6,7 @@ const math = require("./math");
 const motion = require("./motion");
 const operator = require("./operator");
 const procedures = require("./procedures");
+const sensing = require("./sensing");
 const sound = require("./sound");
 const text = require("./text");
 
@@ -13,7 +14,7 @@ const mulang = require("../mulang");
 
 const blockCategories = {
   argument, control, event, looks, math,
-  motion, operator, procedures, sound, text
+  motion, operator, procedures, sound, sensing, text
 };
 
 const regularBlocks = {}, inputBlocks = {};

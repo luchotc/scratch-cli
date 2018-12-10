@@ -7,8 +7,9 @@ function getJsonAstUsing(stringifier) {
   }
 }
 
-reporter.getMulangAst = getJsonAstUsing(targets => {
-  let mulangAst = mulang.parse(JSON.parse(targets));
+reporter.getMulangAst = getJsonAstUsing(solution => {
+  let solutionContent = JSON.parse(solution).content;
+  let mulangAst = mulang.parse(solutionContent);
   return JSON.stringify(mulangAst);
 });
 

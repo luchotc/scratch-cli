@@ -1,5 +1,7 @@
 const argument = require("./argument");
+const colour = require("./colour");
 const control = require("./control");
+const data = require("./data");
 const event = require("./event");
 const looks = require("./looks");
 const math = require("./math");
@@ -13,7 +15,7 @@ const text = require("./text");
 const mulang = require("../mulang");
 
 const blockCategories = {
-  argument, control, event, looks, math,
+  argument, colour, control, data, event, looks, math,
   motion, operator, procedures, sound, sensing, text
 };
 

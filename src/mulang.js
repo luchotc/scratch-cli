@@ -86,6 +86,7 @@ function parseField(input) {
 
 function parseInput(input) {
   let inputBlock = getInputBlock(input);
+  if (!inputBlock) return createNode("MuNil");
   return buildBlockAst(inputBlock);
 }
 
@@ -220,6 +221,14 @@ function buildEntryPoint(name, contents) {
   return createNode("EntryPoint", [name, contents]);
 }
 
+function parseAssignment(blockInfo) {
+  return [
+    getContents(blockInfo),
+    doParseInput("VALUE", blockInfo.block)
+  ]
+
+}
+
 let mulangTags = {
   "Application": parseApplication,
   "Repeat": parseRepeat,
@@ -228,7 +237,8 @@ let mulangTags = {
   "Procedure": parseProcedure,
   "Equation": parseEquation,
   "MuNumber": parseMuNumber,
-  "MuString": getContents
+  "MuString": getContents,
+  "Assignment": parseAssignment
 };
 
 

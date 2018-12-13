@@ -11,12 +11,12 @@ const regularBlocks = {
   mousedown: {},
   keypressed: {inputs: ["KEY_OPTION"]},
   current: {fields: ["CURRENTMENU"]},
-  dayssince2000: {},
-  loudness: {},
   askandwait: {inputs: ["QUESTION"]},
-  answer: {},
-  username: {},
-  timer: {}
+  dayssince2000: {mulangTag: "Reference"},
+  loudness: {mulangTag: "Reference"},
+  answer: {mulangTag: "Reference"},
+  username: {mulangTag: "Reference"},
+  timer: {mulangTag: "Reference"}
 };
 
 const inputBlocks = {

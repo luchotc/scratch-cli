@@ -19,13 +19,12 @@ const regularBlocks = {
   gotofrontback: {fields: ["FRONT_BACK"]},
   goforwardbackwardlayers: {fields: ["FORWARD_BACKWARD"], inputs: ["NUM"]},
   // These 3 are just getters for variables, they aren't present in blocks
-  size: {},
-  costumenumbername: {},
-  backdropnumbername: {}
+  size: {mulangTag: "Reference"},
+  costumenumbername: {fields: ["NUMBER_NAME"]},
+  backdropnumbername: {fields: ["NUMBER_NAME"]}
 };
 
 const inputBlocks = {
-
 };
 
 module.exports = {

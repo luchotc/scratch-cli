@@ -19,6 +19,7 @@ function parse(targets) {
 }
 
 function buildSequenceAst(topLevelBlock) {
+  // TODO: ignore certain categories that should not be topLevel
   let siblings = getBlockSiblings(topLevelBlock);
   if (siblings.length) {
     return createNode("Sequence", [topLevelBlock, ...siblings].map(b => buildBlockAst(b)))
@@ -31,13 +32,16 @@ function buildTargetAst(blocks, name) {
   targetBlocks = blocks;
   let topLevelBlocks = _.pickBy(blocks, b => b.topLevel);
   let topLevelSequence = [];
-  _.forOwn(topLevelBlocks, block => { topLevelSequence.push(buildSequenceAst(block)) });
+  _.forOwn(topLevelBlocks, block => {
+    if(blocksStructures.validTopLevelBlock(block)){
+      topLevelSequence.push(buildSequenceAst(block))
+    }
+  });
   return buildEntryPoint(name, createNode("Sequence", topLevelSequence));
-  //return createNode("Sequence", topLevelSequence);
 }
 
 function hasSiblings(block) {
-  /* Although it should be a substack, procedures body is implemented as sibling,
+  /* Although it should be a substack, the procedure's body blocks are implemented as siblings,
    so i had to introduce this exception; */
   return block.next && block.opcode !== 'procedures_definition';
 }
@@ -87,7 +91,7 @@ function parseField(input) {
 function parseInput(input) {
   let inputBlock = getInputBlock(input);
   if (!inputBlock) return createNode("MuNil");
-  return buildBlockAst(inputBlock);
+  return buildSequenceAst(inputBlock);
 }
 
 function getInputBlock(input) {
@@ -125,7 +129,7 @@ function parseAttribute(attr, block, parseFunction, type) {
   if (attribute) {
     return parseFunction(attribute);
   } else {
-    return createNode("MuNil");
+    return createNode("None");
   }
 }
 
@@ -198,7 +202,7 @@ function parseEquationParams(blockInfo) {
 
 function parseEquationBody(blockInfo) {
   let procedureBlock = getBlock(blockInfo.block.parent);
-  let bodyContents = buildBlockAst(getBlock(procedureBlock.next));
+  let bodyContents = buildSequenceAst(getBlock(procedureBlock.next));
   return createNode("UnguardedBody", bodyContents);
 }
 
@@ -229,8 +233,13 @@ function parseAssignment(blockInfo) {
 
 }
 
+function parseReference(blockInfo) {
+  return blockInfo.normalizedOpcode;
+}
+
 let mulangTags = {
   "Application": parseApplication,
+  "Reference": parseReference,
   "Repeat": parseRepeat,
   "While": parseRepeat,
   "If": parseIf,

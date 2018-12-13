@@ -28,10 +28,14 @@ for (let category in blockCategories) {
 }
 
 function getBlockContents(block) {
-  let [category, normalizedOpcode] = block.opcode.split(/_(.+)/);
+  let [category, normalizedOpcode] = normalizeBlockOpcode(block);
   let [blockStructure, parsingFunction] = getBlockStructure(category, normalizedOpcode);
   let blockInfo = {blockStructure, block, normalizedOpcode};
   return [blockStructure, parsingFunction(blockInfo)];
+}
+
+function normalizeBlockOpcode(block) {
+  return block.opcode.split(/_(.+)/);
 }
 
 function getRegularBlockStructure(category, opcode) {
@@ -51,8 +55,14 @@ function getBlockStructure(category, opcode) {
     getInputBlockStructure(category, opcode);
 }
 
+function validTopLevelBlock(topLevelBlock) {
+  let [category] = normalizeBlockOpcode(topLevelBlock);
+  return !regularBlocks[category].invalidTopLevelCategory;
+}
+
 module.exports = {
-  getBlockContents: getBlockContents
+  getBlockContents: getBlockContents,
+  validTopLevelBlock: validTopLevelBlock
 };
 
 /*

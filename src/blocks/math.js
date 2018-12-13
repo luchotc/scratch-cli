@@ -1,7 +1,12 @@
 let inputBlocks = {
-  defaultStructure: {fields: ["NUM"], mulangTag: 'MuNumber'},
+  defaultStructure: {fields: ["NUM"], mulangTag: 'MuNumber'}
+};
+
+let regularBlocks = {
+  invalidTopLevelCategory: true
 };
 
 module.exports = {
+  regularBlocks: regularBlocks,
   inputBlocks: inputBlocks
 };

@@ -1,0 +1,354 @@
+{
+  "content": {
+    "0": {
+      "id": ";e4bSb|Y_*sB4H:_.`JP",
+      "name": "Sprite1",
+      "isStage": false,
+      "x": 0,
+      "y": 0,
+      "size": 100,
+      "direction": 90,
+      "draggable": false,
+      "currentCostume": 0,
+      "costume": {
+        "assetId": "09dc888b0b7df19f70d81588ae73420e",
+        "skinId": 1,
+        "name": "costume1",
+        "bitmapResolution": 1,
+        "rotationCenterX": 47,
+        "rotationCenterY": 55,
+        "md5": "09dc888b0b7df19f70d81588ae73420e.svg",
+        "dataFormat": "svg",
+        "size": [
+          95,
+          111
+        ]
+      },
+      "costumeCount": 2,
+      "visible": true,
+      "rotationStyle": "all around",
+      "comments": {},
+      "blocks": {
+        "/KHq!.+!N~!C|fE|()I}": {
+          "id": "/KHq!.+!N~!C|fE|()I}",
+          "opcode": "sound_cleareffects",
+          "inputs": {},
+          "fields": {},
+          "next": "lGWNjndS6pAcqiC|EHe;",
+          "topLevel": false,
+          "parent": "w%;tWaM1%iEcvg%2Nez+",
+          "shadow": false,
+          "x": -15.933099588046957,
+          "y": -1001.6673243112541
+        },
+        "ywwUlc#=,ijAxg`cmh_3": {
+          "id": "ywwUlc#=,ijAxg`cmh_3",
+          "opcode": "event_whenkeypressed",
+          "inputs": {},
+          "fields": {
+            "KEY_OPTION": {
+              "name": "KEY_OPTION",
+              "value": "space"
+            }
+          },
+          "next": "8x?0a/(YoTa{bNIi8-hr",
+          "topLevel": true,
+          "parent": null,
+          "shadow": false,
+          "x": -148.60316427552317,
+          "y": -1476.835634941926
+        },
+        "8x?0a/(YoTa{bNIi8-hr": {
+          "id": "8x?0a/(YoTa{bNIi8-hr",
+          "opcode": "sound_playuntildone",
+          "inputs": {
+            "SOUND_MENU": {
+              "name": "SOUND_MENU",
+              "block": "3k|TwB#bbR##Hlm![6z8",
+              "shadow": "3k|TwB#bbR##Hlm![6z8"
+            }
+          },
+          "fields": {},
+          "next": "5@wVJS%i@+hY0Y5Pye6t",
+          "topLevel": false,
+          "parent": "ywwUlc#=,ijAxg`cmh_3",
+          "shadow": false,
+          "x": "-644",
+          "y": "-1523"
+        },
+        "3k|TwB#bbR##Hlm![6z8": {
+          "id": "3k|TwB#bbR##Hlm![6z8",
+          "opcode": "sound_sounds_menu",
+          "inputs": {},
+          "fields": {
+            "SOUND_MENU": {
+              "name": "SOUND_MENU",
+              "value": "dance celebrate"
+            }
+          },
+          "next": null,
+          "topLevel": false,
+          "parent": "8x?0a/(YoTa{bNIi8-hr",
+          "shadow": true
+        },
+        "5@wVJS%i@+hY0Y5Pye6t": {
+          "id": "5@wVJS%i@+hY0Y5Pye6t",
+          "opcode": "sound_play",
+          "inputs": {
+            "SOUND_MENU": {
+              "name": "SOUND_MENU",
+              "block": "~A_!foHFc0g~y!15XwKz",
+              "shadow": "~A_!foHFc0g~y!15XwKz"
+            }
+          },
+          "fields": {},
+          "next": "_0F|+QV5d2Vi0z.yhV3p",
+          "topLevel": false,
+          "parent": "8x?0a/(YoTa{bNIi8-hr",
+          "shadow": false,
+          "x": "-644",
+          "y": "-1443"
+        },
+        "~A_!foHFc0g~y!15XwKz": {
+          "id": "~A_!foHFc0g~y!15XwKz",
+          "opcode": "sound_sounds_menu",
+          "inputs": {},
+          "fields": {
+            "SOUND_MENU": {
+              "name": "SOUND_MENU",
+              "value": "dance celebrate"
+            }
+          },
+          "next": null,
+          "topLevel": false,
+          "parent": "5@wVJS%i@+hY0Y5Pye6t",
+          "shadow": true
+        },
+        "_0F|+QV5d2Vi0z.yhV3p": {
+          "id": "_0F|+QV5d2Vi0z.yhV3p",
+          "opcode": "sound_stopallsounds",
+          "inputs": {},
+          "fields": {},
+          "next": "!z#bqQR:G[F%*}SdCQ((",
+          "topLevel": false,
+          "parent": "5@wVJS%i@+hY0Y5Pye6t",
+          "shadow": false,
+          "x": "-644",
+          "y": "-1363"
+        },
+        "!z#bqQR:G[F%*}SdCQ((": {
+          "id": "!z#bqQR:G[F%*}SdCQ((",
+          "opcode": "sound_changeeffectby",
+          "inputs": {
+            "VALUE": {
+              "name": "VALUE",
+              "block": "=Q?yk~,^dbB3+(6/Mo6D",
+              "shadow": "=Q?yk~,^dbB3+(6/Mo6D"
+            }
+          },
+          "fields": {
+            "EFFECT": {
+              "name": "EFFECT",
+              "value": "PITCH"
+            }
+          },
+          "next": "w%;tWaM1%iEcvg%2Nez+",
+          "topLevel": false,
+          "parent": "_0F|+QV5d2Vi0z.yhV3p",
+          "shadow": false,
+          "x": "-644",
+          "y": "-1254"
+        },
+        "=Q?yk~,^dbB3+(6/Mo6D": {
+          "id": "=Q?yk~,^dbB3+(6/Mo6D",
+          "opcode": "math_number",
+          "inputs": {},
+          "fields": {
+            "NUM": {
+              "name": "NUM",
+              "value": "10"
+            }
+          },
+          "next": null,
+          "topLevel": false,
+          "parent": "!z#bqQR:G[F%*}SdCQ((",
+          "shadow": true
+        },
+        "w%;tWaM1%iEcvg%2Nez+": {
+          "id": "w%;tWaM1%iEcvg%2Nez+",
+          "opcode": "sound_seteffectto",
+          "inputs": {
+            "VALUE": {
+              "name": "VALUE",
+              "block": "@P`bU^}@/1]]bD14o1q*",
+              "shadow": "f*m|@Kq*lqJV`GL0HOA="
+            }
+          },
+          "fields": {
+            "EFFECT": {
+              "name": "EFFECT",
+              "value": "PITCH"
+            }
+          },
+          "next": "/KHq!.+!N~!C|fE|()I}",
+          "topLevel": false,
+          "parent": "!z#bqQR:G[F%*}SdCQ((",
+          "shadow": false,
+          "x": -110.1986718659906,
+          "y": -1186.5325855007773
+        },
+        "f*m|@Kq*lqJV`GL0HOA=": {
+          "id": "f*m|@Kq*lqJV`GL0HOA=",
+          "opcode": "math_number",
+          "inputs": {},
+          "fields": {
+            "NUM": {
+              "name": "NUM",
+              "value": "100"
+            }
+          },
+          "next": null,
+          "topLevel": true,
+          "parent": null,
+          "shadow": true,
+          "x": 161.15372549419612,
+          "y": -1195.668118770057
+        },
+        "lGWNjndS6pAcqiC|EHe;": {
+          "id": "lGWNjndS6pAcqiC|EHe;",
+          "opcode": "sound_changevolumeby",
+          "inputs": {
+            "VOLUME": {
+              "name": "VOLUME",
+              "block": "Sd=4FtUYih+watOl,FTZ",
+              "shadow": "Sd=4FtUYih+watOl,FTZ"
+            }
+          },
+          "fields": {},
+          "next": "|;e9tM!Nn;6Ni@H)xZ5H",
+          "topLevel": false,
+          "parent": "/KHq!.+!N~!C|fE|()I}",
+          "shadow": false,
+          "x": "-644",
+          "y": "-1143"
+        },
+        "Sd=4FtUYih+watOl,FTZ": {
+          "id": "Sd=4FtUYih+watOl,FTZ",
+          "opcode": "math_number",
+          "inputs": {},
+          "fields": {
+            "NUM": {
+              "name": "NUM",
+              "value": "-10"
+            }
+          },
+          "next": null,
+          "topLevel": false,
+          "parent": "lGWNjndS6pAcqiC|EHe;",
+          "shadow": true
+        },
+        "|;e9tM!Nn;6Ni@H)xZ5H": {
+          "id": "|;e9tM!Nn;6Ni@H)xZ5H",
+          "opcode": "sound_setvolumeto",
+          "inputs": {
+            "VOLUME": {
+              "name": "VOLUME",
+              "block": ")V6`H`Bb%[x]*+~fj;,^",
+              "shadow": ")V6`H`Bb%[x]*+~fj;,^"
+            }
+          },
+          "fields": {},
+          "next": null,
+          "topLevel": false,
+          "parent": "lGWNjndS6pAcqiC|EHe;",
+          "shadow": false,
+          "x": "-644",
+          "y": "-1063"
+        },
+        ")V6`H`Bb%[x]*+~fj;,^": {
+          "id": ")V6`H`Bb%[x]*+~fj;,^",
+          "opcode": "math_number",
+          "inputs": {},
+          "fields": {
+            "NUM": {
+              "name": "NUM",
+              "value": "100"
+            }
+          },
+          "next": null,
+          "topLevel": false,
+          "parent": "|;e9tM!Nn;6Ni@H)xZ5H",
+          "shadow": true
+        },
+        "@P`bU^}@/1]]bD14o1q*": {
+          "id": "@P`bU^}@/1]]bD14o1q*",
+          "opcode": "sound_volume",
+          "inputs": {},
+          "fields": {},
+          "next": null,
+          "topLevel": false,
+          "parent": "w%;tWaM1%iEcvg%2Nez+",
+          "shadow": false,
+          "x": "-607",
+          "y": "-983"
+        }
+      },
+      "variables": {
+        "lnp@[V:*P`@u`=k$GVUU": {
+          "id": "lnp@[V:*P`@u`=k$GVUU",
+          "name": "inner",
+          "type": "",
+          "isCloud": false,
+          "value": 0
+        }
+      },
+      "costumes": [
+        {
+          "assetId": "09dc888b0b7df19f70d81588ae73420e",
+          "skinId": 1,
+          "name": "costume1",
+          "bitmapResolution": 1,
+          "rotationCenterX": 47,
+          "rotationCenterY": 55,
+          "md5": "09dc888b0b7df19f70d81588ae73420e.svg",
+          "dataFormat": "svg",
+          "size": [
+            95,
+            111
+          ]
+        },
+        {
+          "assetId": "3696356a03a8d938318876a593572843",
+          "skinId": 2,
+          "name": "costume2",
+          "bitmapResolution": 1,
+          "rotationCenterX": 47,
+          "rotationCenterY": 55,
+          "md5": "3696356a03a8d938318876a593572843.svg",
+          "map propertydataFormat": "svg",
+          "size": [
+            95,
+            111
+          ]
+        }
+      ],
+      "sounds": [
+        {
+          "assetId": "83c36d806dc92327b9e7049a565c6bff",
+          "format": "",
+          "rate": 44100,
+          "sampleCount": 37376,
+          "name": "Meow",
+          "md5": "83c36d806dc92327b9e7049a565c6bff.wav",
+          "dataFormat": "wav",
+          "data": null,
+          "soundId": "`5;LcO[2pwp;;~Q@{tHs"
+        }
+      ],
+      "tempo": 60,
+      "volume": 100,
+      "videoTransparency": 50,
+      "videoState": "on"
+    }
+  }
+}

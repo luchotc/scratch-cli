@@ -5,7 +5,9 @@ const regularBlocks = {
   changevolumeby: {inputs: ["VOLUME"]},
   setvolumeto: {inputs: ["VOLUME"]},
   changeeffectby: {fields: ["EFFECT"], inputs: ["VALUE"]},
-  seteffectto: {fields: ["EFFECT"], inputs: ["VALUE"]}
+  seteffectto: {fields: ["EFFECT"], inputs: ["VALUE"]},
+  volume: {mulangTag: "Reference"},
+  cleareffects: {}
 };
 
 const inputBlocks = {

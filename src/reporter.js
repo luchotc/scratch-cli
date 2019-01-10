@@ -14,3 +14,4 @@ reporter.getMulangAst = getJsonAstUsing(solution => {
 });
 
 module.exports = reporter;
+

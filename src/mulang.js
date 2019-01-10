@@ -2,6 +2,7 @@ let _ = require("lodash");
 let targetBlocks;
 
 function createNode(tag, contents) {
+  if(tag === "Equation") return [contents];
   return contents !== undefined ? {tag, contents} : {tag};
 }
 
@@ -13,13 +14,34 @@ function getBlock(blockId) {
   return targetBlocks[blockId]
 }
 
-function parse(targets) {
-  let targetsContents = Object.values(targets).map(t => buildTargetAst(t.blocks, t.name));
+function parse(solution) {
+  let targetsContents = Object.values(solution.targets).map(target => buildTargetAst(target));
   return createNode("Sequence", targetsContents);
 }
 
+function buildTargetVariables(target) {
+  let variables = buildVariables(target.variables, buildVariable);
+  let lists = buildVariables(target.lists, buildList);
+  return [...lists, ...variables];
+}
+
+function buildVariables(variables = {}, buildFunction) {
+  return Object.values(variables).map(variable => buildFunction(variable[0]));
+}
+
+function buildList(name) {
+  return buildVariable(name, createNode("MuList", []));
+}
+
+function buildVariable(name, contents) {
+  return createNode("Variable", [
+    name,
+    contents || createNode("None")
+  ]);
+}
+
 function buildSequenceAst(topLevelBlock) {
-  // TODO: ignore certain categories that should not be topLevel
+  if (!topLevelBlock) return createNode("None");
   let siblings = getBlockSiblings(topLevelBlock);
   if (siblings.length) {
     return createNode("Sequence", [topLevelBlock, ...siblings].map(b => buildBlockAst(b)))
@@ -28,22 +50,27 @@ function buildSequenceAst(topLevelBlock) {
   }
 }
 
-function buildTargetAst(blocks, name) {
-  targetBlocks = blocks;
-  let topLevelBlocks = _.pickBy(blocks, b => b.topLevel);
+function buildTargetAst(target) {
+  targetBlocks = target.blocks;
+  let topLevelBlocks = _.pickBy(targetBlocks, b => b.topLevel);
   let topLevelSequence = [];
   _.forOwn(topLevelBlocks, block => {
     if(blocksStructures.validTopLevelBlock(block)){
       topLevelSequence.push(buildSequenceAst(block))
     }
   });
-  return buildEntryPoint(name, createNode("Sequence", topLevelSequence));
+  topLevelSequence =  topLevelSequence.concat(buildTargetVariables(target));
+  return buildEntryPoint(target.name, createNode("Sequence", topLevelSequence));
 }
 
 function hasSiblings(block) {
-  /* Although it should be a substack, the procedure's body blocks are implemented as siblings,
-   so i had to introduce this exception; */
-  return block.next && block.opcode !== 'procedures_definition';
+  return block.next && !hasImplicitSubstack(block.opcode);
+}
+
+function hasImplicitSubstack(opcode){
+  /* Although it should be a substack, the procedure's body blocks are implemented
+  as siblings, so this exception is needed; */
+  return opcode === 'procedures_definition' || opcode.startsWith('event_when');
 }
 
 function getBlockSiblings(block) {
@@ -76,7 +103,7 @@ function parseMulangTag(mulangTag) {
 }
 
 function parseApplication(blockInfo) {
-  let referenceName = blockInfo.blockStructure.methodAlias || blockInfo.normalizedOpcode;
+  let referenceName = blockInfo.blockStructure.applicationAlias || blockInfo.normalizedOpcode;
   return [
     createNode("Reference", referenceName),
     parseAttributes(blockInfo)
@@ -85,7 +112,7 @@ function parseApplication(blockInfo) {
 
 function parseField(input) {
   let fieldValue = input.value;
-  return createNode("Reference", fieldValue); //TODO: parse field type
+  return createNode("Reference", fieldValue);
 }
 
 function parseInput(input) {
@@ -95,7 +122,7 @@ function parseInput(input) {
 }
 
 function getInputBlock(input) {
-  let inputBlockId = input.block || input.shadow; //TODO: validate if block has correct type.
+  let inputBlockId = input.block || input.shadow;
   return targetBlocks[inputBlockId];
 }
 
@@ -162,9 +189,18 @@ function parseMuNumber(blockInfo) {
   return parseFloat(getContents(blockInfo));
 }
 
+function getRepeatExpression(blockInfo) {
+  // Forever is parsed as while true as mulang doesn't support it natively
+  if(blockInfo.normalizedOpcode === "forever"){
+    return createNode("MuBool", true);
+  } else {
+    return getExpression(blockInfo)
+  }
+}
+
 function parseRepeat(blockInfo) {
   return [
-    getExpression(blockInfo),
+    getRepeatExpression(blockInfo),
     doParseInput("SUBSTACK", blockInfo.block)
   ]
 }
@@ -178,9 +214,10 @@ function parseIf(blockInfo) {
 }
 
 function parseEquation(blockInfo) {
+  let procedureBlock = getBlock(blockInfo.block.parent);
   return [
     parseEquationParams(blockInfo),
-    parseEquationBody(blockInfo)
+    parseEquationBody(procedureBlock)
   ]
 }
 
@@ -200,11 +237,11 @@ function parseEquationParams(blockInfo) {
   return equationParams.map( argument => createNode("VariablePattern", argument) );
 }
 
-function parseEquationBody(blockInfo) {
-  let procedureBlock = getBlock(blockInfo.block.parent);
-  let bodyContents = buildSequenceAst(getBlock(procedureBlock.next));
+function parseEquationBody(block) {
+  let bodyContents = buildSequenceAst(nextBlockFor(block));
   return createNode("UnguardedBody", bodyContents);
 }
+
 
 function getEquationParams(blockInfo) {
   return JSON.parse(blockInfo.block.mutation.argumentnames);
@@ -237,6 +274,35 @@ function parseReference(blockInfo) {
   return blockInfo.normalizedOpcode;
 }
 
+function parseEntryPoint(blockInfo) {
+  return [
+    getListenerNormalizedName(blockInfo),
+    buildSequenceAst(nextBlockFor(blockInfo.block))
+  ]
+}
+
+/* This function generates the name of a listener by replacing the $N tokens, with the
+   attributes that are located at the N position.
+   For example the name of when_greater_than block is defined as when_$0_greater_than_$1
+   so $0 is replaced by the first argument and $1 by the second one
+*/
+
+function normalizeListenerName(listenerName, attributes) {
+  let normalizingRegex = new RegExp("\\$.", "g");
+  return listenerName.replace(normalizingRegex, (token) => {
+    let attributeIndex = token[1];
+    let attribute = attributes[attributeIndex];
+    return attribute instanceof Object ? "custom_block" : attribute.toString().toLowerCase();
+  });
+}
+
+
+function getListenerNormalizedName(blockInfo) {
+  let attributes = parseAttributes(blockInfo).map(attr => attr.contents);
+  let customNamePlaceholder = blockInfo.blockStructure.customName;
+  return normalizeListenerName(customNamePlaceholder, attributes);
+}
+
 let mulangTags = {
   "Application": parseApplication,
   "Reference": parseReference,
@@ -247,7 +313,8 @@ let mulangTags = {
   "Equation": parseEquation,
   "MuNumber": parseMuNumber,
   "MuString": getContents,
-  "Assignment": parseAssignment
+  "Assignment": parseAssignment,
+  "EntryPoint": parseEntryPoint
 };
 
 

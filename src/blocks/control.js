@@ -3,7 +3,7 @@ const regularBlocks = {
   wait_until: {inputs: ["CONDITION"]},
   repeat: {inputs: ["TIMES"], mulangTag: "Repeat"},
   repeat_until: {inputs: ["CONDITION"], mulangTag: "While"},
-  forever: {inputs: ["SUBSTACK"]},
+  forever: {inputs: ["SUBSTACK"], mulangTag: "While"}, // Parsed as while(true)
   if: {inputs: ["CONDITION"], mulangTag: "If"},
   if_else: {inputs: ["CONDITION"], mulangTag: "If"},
   stop: {fields: ["STOP_OPTION"]},

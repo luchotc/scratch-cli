@@ -1,12 +1,12 @@
 const regularBlocks = {
   broadcast: {inputs: ["BROADCAST_INPUT"]},
   broadcastandwait: {inputs: ["BROADCAST_INPUT"]},
-  whenflagclicked: {},
-  whenkeypressed: {fields: ["KEY_OPTION"]},
-  whenthisspriteclicked: {},
-  whenbackdropswitchesto: {fields: ["BACKDROP"]},
-  whengreaterthan: {fields: ["WHENGREATERTHANMENU"], inputs: ["VALUE"]},
-  whenbroadcastreceived: {fields: ["BROADCAST_OPTION"]}
+  whenflagclicked: {mulangTag: "EntryPoint", customName: "when_flag_clicked"},
+  whenkeypressed: {fields: ["KEY_OPTION"], mulangTag: "EntryPoint", customName: "when_$0_key_pressed"},
+  whenthisspriteclicked: {mulangTag: "EntryPoint", customName: "when_this_sprite_clicked"},
+  whenbackdropswitchesto: {fields: ["BACKDROP"], mulangTag: "EntryPoint", customName: "when_backdrop_switches_to_$0"},
+  whengreaterthan: {fields: ["WHENGREATERTHANMENU"], inputs: ["VALUE"], mulangTag: "EntryPoint", customName: "when_$0_greater_than_$1"},
+  whenbroadcastreceived: {fields: ["BROADCAST_OPTION"], mulangTag: "EntryPoint", customName: "when_i_receive_$0"}
 };
 
 const inputBlocks = {

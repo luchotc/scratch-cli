@@ -2,18 +2,18 @@ const regularBlocks = {
   wait: {inputs: ["DURATION"]},
   wait_until: {inputs: ["CONDITION"]},
   repeat: {inputs: ["TIMES"], mulangTag: "Repeat"},
-  repeat_until: {inputs: ["CONDITION"], mulangTag: "While"},
+  repeat_until: {inputs: ["CONDITION"], mulangTag: "While"}, //Parsed as while(!condition)
   forever: {inputs: ["SUBSTACK"], mulangTag: "While"}, // Parsed as while(true)
   if: {inputs: ["CONDITION"], mulangTag: "If"},
   if_else: {inputs: ["CONDITION"], mulangTag: "If"},
   stop: {fields: ["STOP_OPTION"]},
   create_clone_of: {inputs: ["CLONE_OPTION"]},
   delete_this_clone: {},
-  start_as_clone: {}
+  start_as_clone: {mulangTag: "EntryPoint", customName: "when_i_start_as_a_clone"}
 };
 
 const inputBlocks = {
-
+  create_clone_of_menu: {fields: ["CLONE_OPTION"]},
 };
 
 module.exports = {

@@ -13,8 +13,11 @@
   "author": "Luis Cannavó",
   "license": "ISC",
   "dependencies": {
+    "glob": "^7.1.3",
     "lodash": "^4.17.2",
-    "node-getopt": "^0.2.3"
+    "mulang": "^4.4.0",
+    "node-getopt": "^0.2.3",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "chai": "^3.5.0",

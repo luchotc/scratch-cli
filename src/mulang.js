@@ -36,12 +36,16 @@ function buildList(name) {
 function buildVariable(name, contents) {
   return createNode("Variable", [
     name,
-    contents || createNode("None")
+    contents || buildEmptyNode()
   ]);
 }
 
+function buildEmptyNode() {
+  return createNode("None", []);
+}
+
 function buildSequenceAst(topLevelBlock) {
-  if (!topLevelBlock) return createNode("None");
+  if (!topLevelBlock) return buildEmptyNode();
   let siblings = getBlockSiblings(topLevelBlock);
   if (siblings.length) {
     return createNode("Sequence", [topLevelBlock, ...siblings].map(b => buildBlockAst(b)))
@@ -67,10 +71,12 @@ function hasSiblings(block) {
   return block.next && !hasImplicitSubstack(block.opcode);
 }
 
+/* Although it should be a substack, the procedure's body blocks  and listener
+   blocks are implemented as siblings, so this exception is needed; */
+
 function hasImplicitSubstack(opcode){
-  /* Although it should be a substack, the procedure's body blocks are implemented
-  as siblings, so this exception is needed; */
-  return opcode === 'procedures_definition' || opcode.startsWith('event_when');
+  const withImplicitSubstack = ['procedures_definition', 'start_as_clone'];
+  return _.includes(withImplicitSubstack, opcode) || opcode.startsWith('event_when');
 }
 
 function getBlockSiblings(block) {
@@ -156,7 +162,7 @@ function parseAttribute(attr, block, parseFunction, type) {
   if (attribute) {
     return parseFunction(attribute);
   } else {
-    return createNode("None");
+    return buildEmptyNode();
   }
 }
 
@@ -189,18 +195,31 @@ function parseMuNumber(blockInfo) {
   return parseFloat(getContents(blockInfo));
 }
 
-function getRepeatExpression(blockInfo) {
+function getWhileExpression(blockInfo) {
   // Forever is parsed as while true as mulang doesn't support it natively
+  // Repeat_until is parsed as while(!condition)
   if(blockInfo.normalizedOpcode === "forever"){
     return createNode("MuBool", true);
   } else {
-    return getExpression(blockInfo)
+    return createNotApplication(getExpression(blockInfo));
   }
+}
+
+function createNotApplication(contents) {
+  let negatedContents = [createNode("Reference", "not"), [contents]];
+  return createNode("Application", negatedContents)
+}
+
+function parseWhile(blockInfo) {
+  return [
+    getWhileExpression(blockInfo),
+    doParseInput("SUBSTACK", blockInfo.block)
+  ]
 }
 
 function parseRepeat(blockInfo) {
   return [
-    getRepeatExpression(blockInfo),
+    getExpression(blockInfo),
     doParseInput("SUBSTACK", blockInfo.block)
   ]
 }
@@ -285,7 +304,8 @@ function parseEntryPoint(blockInfo) {
    attributes that are located at the N position.
    For example the name of when_greater_than block is defined as when_$0_greater_than_$1
    so $0 is replaced by the first argument and $1 by the second one
-*/
+   If the argument is another block, it is parsed as 'custom_block' as it would be very complex
+   to create a consistent naming for each possible combination */
 
 function normalizeListenerName(listenerName, attributes) {
   let normalizingRegex = new RegExp("\\$.", "g");
@@ -295,7 +315,6 @@ function normalizeListenerName(listenerName, attributes) {
     return attribute instanceof Object ? "custom_block" : attribute.toString().toLowerCase();
   });
 }
-
 
 function getListenerNormalizedName(blockInfo) {
   let attributes = parseAttributes(blockInfo).map(attr => attr.contents);
@@ -307,7 +326,7 @@ let mulangTags = {
   "Application": parseApplication,
   "Reference": parseReference,
   "Repeat": parseRepeat,
-  "While": parseRepeat,
+  "While": parseWhile,
   "If": parseIf,
   "Procedure": parseProcedure,
   "Equation": parseEquation,

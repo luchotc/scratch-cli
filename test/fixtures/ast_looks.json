@@ -570,13 +570,10 @@
           }
         },
         "variables": {
-          "lnp@[V:*P`@u`=k$GVUU": {
-            "id": "lnp@[V:*P`@u`=k$GVUU",
-            "name": "inner",
-            "type": "",
-            "isCloud": false,
-            "value": 0
-          }
+          "`jEk@4|i[#Fk?(8x)AV.-my variable": [
+            "test var",
+            1
+          ]
         },
         "costumes": [
           {

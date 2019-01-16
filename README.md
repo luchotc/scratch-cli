@@ -1,11 +1,11 @@
-# scratch-cli
-CLI for the Scratch interpreter
+# mulang-scratch
+CLI for transforming a Scratch AST into a Mulang AST
 
 ## Install
 
 ```bash
-# requires node > 6
-sudo npm install -g scratch-cli
+# requires node > 8
+sudo npm install -g mulang-scratch
 ```
 
 ## Run tests
@@ -19,13 +19,13 @@ npm test
 The cli can be wrapped as an executable using [nexe](https://github.com/jaredallard/nexe): `npm install nexe -g`.
 
 ```
-git clone https://github.com/luchotc/scratch-cli
-cd scratch-cli
-nexe -i src/index.js -o scratch-cli
+git clone https://github.com/mumuki/mulang-scratch
+cd mulang-scratch
+nexe -i src/index.js -o mulang-scratch
 ```
 
 ## Usage
 
 ```bash
-scratch-cli --help
+mulang-scratch --help
 ```

@@ -12,7 +12,7 @@ let options = getopt.create([
 
 options.setHelp(
   "Examples of usage:\n" +
-  "scratch-cli targets.json\n" +
+  "mulang-scratch targets.json\n" +
   "\n" + "[[OPTIONS]]"
 );
 

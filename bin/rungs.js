@@ -1,4 +1,4 @@
-// Wrapper of gobstones-cli --mulang_ast --from_stdin
+// Wrapper of mulang-scratch --from_stdin
 // It can be compiled with `nexe`: nexe -i rungs.js -o rungs-ubuntu64
 
 var reporter = require('../src/reporter');
